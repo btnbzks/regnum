@@ -1,0 +1,171 @@
+@import "tailwindcss";
+
+/* ───────────────────────────── REGNUM design tokens ───────────────────────────── */
+:root {
+  --ink: #0b0b0c;
+  --ink-2: #111113;
+  --graphite: #1b1b1e;
+  --bone: #ece8e1;
+  --bone-2: #e2ddd4;
+  --mineral: #a39e95;
+  --brass: #b08d57;
+  --brass-deep: #7f6740;
+
+  /* tone defaults (ink) */
+  --bg: var(--ink);
+  --fg: var(--bone);
+  --muted: var(--mineral);
+  --line: rgba(236, 232, 225, 0.14);
+  --line-strong: rgba(236, 232, 225, 0.34);
+  --accent: var(--brass);
+
+  --gutter: 20px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --nav-h: 72px;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-graphite: var(--graphite);
+  --color-bone: var(--bone);
+  --color-bone-2: var(--bone-2);
+  --color-mineral: var(--mineral);
+  --color-brass: var(--brass);
+  --color-brass-deep: var(--brass-deep);
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --font-display: var(--font-instrument), "Times New Roman", serif;
+  --font-sans: var(--font-geist), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --ease-out: var(--ease-out);
+  --ease-in-out: var(--ease-in-out);
+}
+
+@media (min-width: 768px) { :root { --gutter: 40px; } }
+@media (min-width: 1280px) { :root { --gutter: 64px; } }
+
+/* tone switch — sections flip between ink and bone */
+.tone-ink {
+  --bg: var(--ink);
+  --fg: var(--bone);
+  --muted: var(--mineral);
+  --line: rgba(236, 232, 225, 0.14);
+  --line-strong: rgba(236, 232, 225, 0.34);
+  color-scheme: dark;
+}
+.tone-bone {
+  --bg: var(--bone);
+  --fg: var(--ink);
+  --muted: #655f56;
+  --line: rgba(11, 11, 12, 0.16);
+  --line-strong: rgba(11, 11, 12, 0.4);
+  color-scheme: light;
+}
+
+html {
+  background: var(--ink);
+  color: var(--bone);
+  scroll-behavior: auto;
+  -webkit-text-size-adjust: 100%;
+}
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+body {
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--brass); color: var(--ink); }
+
+:focus-visible {
+  outline: 1.5px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* typography utilities */
+.font-display { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.015em; }
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.measure { max-width: 62ch; }
+
+/* 12-col editorial grid */
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(12px, 1.6vw, 24px);
+}
+.container-x { padding-inline: var(--gutter); }
+
+/* hairline helpers */
+.hairline { height: 1px; background: var(--line); }
+.hairline-v { width: 1px; background: var(--line); }
+
+/* underline link: draws from left, retracts to right */
+.u-link { position: relative; }
+.u-link::after {
+  content: ""; position: absolute; left: 0; bottom: -2px; height: 1px; width: 100%;
+  background: currentColor; transform: scaleX(0); transform-origin: right;
+  transition: transform 0.5s var(--ease-out);
+}
+.u-link:hover::after, .u-link:focus-visible::after, .u-link[aria-current="true"]::after {
+  transform: scaleX(1); transform-origin: left;
+}
+
+/* line-mask reveal container */
+.mask { overflow: hidden; display: block; }
+
+/* four-point star bullet, drawn from the emblem's sparkle */
+.star::before {
+  content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 10px;
+  background: currentColor;
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  vertical-align: middle; transform: translateY(-1px);
+}
+
+/* pre-animation state only when JS is active and motion is allowed */
+html.js:not(.no-motion) [data-reveal] { opacity: 0; }
+
+/* subtle grain */
+.grain { position: relative; }
+.grain::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  html.js [data-reveal] { opacity: 1; }
+}
+
+/* kaydırma ipucu: tek damla */
+@keyframes drip {
+  0% { transform: translateY(-100%); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(340%); opacity: 0; }
+}
+
+/* yaklaşım rayındaki düğüm */
+.stage-node { transition: background-color .5s var(--ease-out), border-color .5s var(--ease-out), transform .5s var(--ease-out); }
+.stage-node.is-active { background: var(--accent) !important; border-color: var(--accent); transform: scale(1.4); }
+
+/* hareket kapalıysa manifesto kelimeleri anında okunur */
+html.no-motion [data-word] { opacity: 1 !important; }

@@ -1,0 +1,19 @@
+"use client";
+
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+  gsap.defaults({ ease: "power3.out", duration: 0.8 });
+}
+
+/** Markaya ait ortak hareket dili. Tüm bileşenler aynı eğrileri kullanır. */
+export const EASE = {
+  out: "expo.out",
+  inOut: "expo.inOut",
+  soft: "power2.out",
+} as const;
+
+export { gsap, ScrollTrigger, useGSAP };
