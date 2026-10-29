@@ -15,8 +15,13 @@ npm run lint       # ESLint
 Yayında canonical/OG adreslerinin doğru olması için ortam değişkeni verin:
 
 ```
-NEXT_PUBLIC_SITE_URL=https://alanadiniz.com
+NEXT_PUBLIC_SITE_URL=https://12regnum.com   # varsayılan zaten bu
 ```
+
+## Yayın (GitHub Pages)
+
+`master` dalına her push, `.github/workflows/deploy.yml` ile siteyi derleyip GitHub Pages'e yayınlar.
+Canlı adres: https://12regnum.com (alan adı Metunic'te; A/CNAME kayıtları GitHub Pages'e yönlendirilir).
 
 ## İçeriği düzenleme
 

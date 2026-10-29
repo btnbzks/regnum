@@ -7,7 +7,7 @@ export const site = {
   tagline: "Kalıcı olmak için tasarlanan yazılım.",
   description:
     "REGNUM; ürün stratejisi, yazılım mimarisi ve mühendisliği tek bir disiplin olarak ele alan bağımsız bir yazılım stüdyosudur. Özel yazılım, web ve mobil platformlar, kurumsal sistemler ve entegrasyonlar.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://12regnum.com",
   locale: "tr_TR",
   contact: {
     email: "12regnum@gmail.com",
